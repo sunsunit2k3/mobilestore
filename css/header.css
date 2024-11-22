@@ -1,0 +1,90 @@
+:root {
+    --main-color: #400000;
+    --accent-color: #c00;
+    --light-color: #f5f5f5;
+    --dark-color: #333;
+    --font-family: Arial, sans-serif;
+    --border-radius: 10px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset cơ bản */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: var(--main-color);
+    color: #fff;
+    position: sticky;
+    top: 0; /* Keep the header at the top when scrolling */
+    z-index: 1000; /* Ensure it stays above other elements */
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fff;
+    position: sticky;
+    top: 0; /* Ensure navbar stays at the top */
+    z-index: 999; /* Ensure it's below the header */
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--main-color);
+}
+
+.navbar div {
+    margin: 10px;
+}
+.form-search{
+    flex-grow: 1;
+}
+.search-bar {
+    max-width: 90%;
+    width: 100%;
+    margin: 0 15px;
+    padding: 8px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+}
+
+.cart-icon {
+    font-size: 24px;
+    color: var(--main-color);
+    cursor: pointer;
+}
+.navbar button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px; /* Làm tròn góc */
+    cursor: pointer; /* Khi di chuột vào, con trỏ thay đổi */
+    transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng chuyển màu nền và phóng to khi hover */
+}
+.navbar button:hover{
+    background-color: #400000; /* Màu nền khi hover */
+    color: white; /* Đổi màu chữ khi hover */
+    transform: scale(1.1); /* Phóng to khi hover */
+}
