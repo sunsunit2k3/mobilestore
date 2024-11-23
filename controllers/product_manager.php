@@ -14,6 +14,22 @@ function getAllProducts() {
     }
     mysqli_close($conn);
 }
+function getProductById($id) {
+    $conn = getDbConnection(); 
+    $sql = "SELECT * FROM Product WHERE product_id = $id";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $product = mysqli_fetch_assoc($result);
+        mysqli_close($conn);
+        return $product; 
+    } else {
+        mysqli_close($conn);
+        return [];
+    }
+}
+
+
 
 // Hàm thêm sản phẩm
 function addProduct($name, $description, $price, $quantity, $category, $image) {

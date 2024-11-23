@@ -50,11 +50,13 @@ header {
     z-index: 999; /* Ensure it's below the header */
 }
 
-.navbar .logo {
+.navbar .logo a {
+    text-decoration: none;
     font-size: 24px;
     font-weight: bold;
     color: var(--main-color);
 }
+
 
 .navbar div {
     margin: 10px;

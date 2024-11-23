@@ -8,7 +8,6 @@ include 'header.php'; // Giả sử đây là phần header của trang web
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa Hàng Online</title>
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
@@ -74,7 +73,7 @@ $products = getProductsByLimit($start, $productsPerPage); // Hàm lấy sản ph
             <img src="./assets/product/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
             <h3><?php echo htmlspecialchars($product['name']); ?></h3>
             <p><?php echo number_format($product['price'], 0, ',', '.') . " VND"; ?></p>
-            <button class="btn">Mua hàng</button>
+            <a href="./views/product_detail.php?product_id=<?php echo $product['product_id']; ?>" class="btn">Mua hàng</a>
         </article>
     <?php endforeach; ?>
 </section>

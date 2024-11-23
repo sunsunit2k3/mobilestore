@@ -1,0 +1,21 @@
+/* Footer */
+footer {
+    background: var(--light-color);
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+}
+.contact-options button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.contact-options button:hover {
+    background-color: #ff4500;
+}
