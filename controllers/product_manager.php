@@ -1,5 +1,5 @@
 <?php
-include 'database/conn.php';
+include_once __DIR__ . '/../config.php';
 
 // Hàm đọc tất cả sản phẩm
 function getAllProducts() {

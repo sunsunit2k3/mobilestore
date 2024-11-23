@@ -63,7 +63,7 @@ header {
     flex-grow: 1;
 }
 .search-bar {
-    max-width: 90%;
+    max-width: 80%;
     width: 100%;
     margin: 0 15px;
     padding: 8px;

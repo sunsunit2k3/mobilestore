@@ -17,14 +17,10 @@ include 'header.php'; // Giả sử đây là phần header của trang web
     <!-- Sidebar -->
     <aside class="sidebar">
         <ul>
-            <li><span class="icon">💻</span>Laptop Cũ</li>
-            <li><span class="icon">📱</span>Điện thoại Cũ</li>
+            <li><span class="icon">💻</span>Laptop</li>
+            <li><span class="icon">📱</span>Điện thoại</li>
             <li><span class="icon">🎮</span>Phụ kiện Gaming</li>
             <li><span class="icon">📟</span>Phụ kiện Điện Thoại</li>
-            <li><span class="icon">👗</span>Phụ kiện Thời Trang</li>
-            <li><span class="icon">🏠</span>Gia Dụng Thông Minh</li>
-            <li><span class="icon">🔖</span>Outlet – Xả Tồn</li>
-            <li><span class="icon">📦</span>Pre-order</li>
         </ul>
     </aside>
 
@@ -66,7 +62,7 @@ include 'header.php'; // Giả sử đây là phần header của trang web
     $products = getAllProducts(); // Hàm lấy tất cả sản phẩm
     foreach ($products as $product): ?>
         <article class="product">
-            <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+            <img src="./assets/product/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
             <h3><?php echo $product['name']; ?></h3>
             <p><?php echo number_format($product['price'], 0, ',', '.') . " VND"; ?></p>
         </article>
