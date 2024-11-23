@@ -61,6 +61,22 @@ function deleteProduct($product_id) {
     }
     mysqli_close($conn);
 }
+// Hàm lấy sản phẩm theo giới hạn
+function getProductsByLimit($start, $limit) {
+    $conn = getDbConnection();
+    $query = "SELECT * FROM Product LIMIT $start, $limit"; 
+    $result = mysqli_query($conn, $query);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// Hàm đếm tổng số sản phẩm
+function getTotalProductCount() {
+    $conn = getDbConnection();
+    $query = "SELECT COUNT(*) AS total FROM Product";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total'];
+}
 
 // Kiểm tra nếu có yêu cầu thêm, sửa sản phẩm
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

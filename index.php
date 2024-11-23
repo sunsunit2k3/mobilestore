@@ -9,7 +9,7 @@ include 'header.php'; // Giả sử đây là phần header của trang web
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa Hàng Online</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
 
@@ -56,18 +56,45 @@ include 'header.php'; // Giả sử đây là phần header của trang web
     </aside>
 </main>
 
-<!-- Product Section -->
+<?php
+// Đặt số lượng sản phẩm hiển thị trên mỗi trang
+$productsPerPage = 12;
+
+// Xác định trang hiện tại từ tham số URL, mặc định là trang 1
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$start = ($page - 1) * $productsPerPage;
+
+// Truy vấn lấy sản phẩm giới hạn với LIMIT và OFFSET
+$products = getProductsByLimit($start, $productsPerPage); // Hàm lấy sản phẩm theo giới hạn
+?>
+
 <section class="product-section">
-    <?php 
-    $products = getAllProducts(); // Hàm lấy tất cả sản phẩm
-    foreach ($products as $product): ?>
+    <?php foreach ($products as $product): ?>
         <article class="product">
-            <img src="./assets/product/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
-            <h3><?php echo $product['name']; ?></h3>
+            <img src="./assets/product/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+            <h3><?php echo htmlspecialchars($product['name']); ?></h3>
             <p><?php echo number_format($product['price'], 0, ',', '.') . " VND"; ?></p>
+            <button class="btn">Mua hàng</button>
         </article>
     <?php endforeach; ?>
 </section>
+
+<div class="pagination">
+    <?php 
+    // Tính tổng số sản phẩm và số trang
+    $totalProducts = getTotalProductCount(); // Hàm đếm tổng số sản phẩm
+    $totalPages = ceil($totalProducts / $productsPerPage);
+    // Hiển thị các liên kết phân trang
+    if ($totalPages > 1): ?>
+        <ul class="pagination-list">
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="pagination-item <?php echo ($i == $page) ? 'active' : ''; ?>">
+                    <a href="?page=<?php echo $i; ?>"><?php echo "$i"; ?></a>
+                </li>
+            <?php endfor; ?>
+        </ul>
+    <?php endif; ?>
+</div>
 <?php include 'footer.php'; ?>
 </body>
 </html>
