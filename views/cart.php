@@ -1,6 +1,5 @@
 <?php
-session_start(); // Start session
-
+session_start(); 
 include_once __DIR__ . '/../controllers/product_manager.php';
 
 

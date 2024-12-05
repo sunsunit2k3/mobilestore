@@ -31,11 +31,11 @@
 	$sql = "CREATE TABLE IF NOT EXISTS Product (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    description TEXT,
+    description TEXT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     quantity INT NOT NULL,
-    category VARCHAR(50),
-    image VARCHAR(255),
+    category VARCHAR(50) NOT NULL,
+    image VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
 
 	if(mysqli_query($conn,$sql)){
@@ -68,7 +68,7 @@
     email VARCHAR(100) NOT NULL, 
     address VARCHAR(500) NOT NULL,
     note VARCHAR(300) NOT NULL,
-    order_date DATE NOT NULL, 
+    order_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     status INT NOT NULL DEFAULT 0, 
     total_money INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES User(user_id),

@@ -48,6 +48,7 @@
     margin: 20px auto;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    height: fit-content;
 }
 
 .carousel-container {
@@ -233,4 +234,45 @@
     background-color: #007bff;
     color: white;
     border-color: #007bff;
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+    .main-container {
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    .sidebar {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .right-sidebar {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .product {
+        flex: 1 1 calc(33.33% - 20px);
+    }
+
+    .carousel-btn {
+        font-size: 28px;
+        padding: 15px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .product {
+        flex: 1 1 calc(25% - 20px);
+    }
+
+    .banner-content h1 {
+        font-size: var(--font-size-large);
+    }
+
+    .banner-content p {
+        font-size: var(--font-size-medium);
+    }
 }

@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../controllers/product_manager.php';
+include_once __DIR__ . '/../config.php';
 include_once __DIR__ . '/../header.php';
 
 $cartEmpty = empty($_SESSION['cart']) ? true : false;
@@ -62,7 +62,11 @@ if (!$cartEmpty) {
 
             <div class="total">
                 <p><strong>Tổng cộng: </strong><?php echo number_format($totalPrice, 0, ',', '.') . " VND"; ?></p>
-                <a href="checkout.php" class="btn-checkout">Tiến hành thanh toán</a>
+                <?php if (isset($_SESSION['user_id'])):  ?>
+                    <a href="./checkout.php" class="btn-checkout">Tiến hành thanh toán</a>
+                <?php else: ?>
+                    <p>Bạn cần <a href="login.php">đăng nhập</a> để thanh toán.</p>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>
