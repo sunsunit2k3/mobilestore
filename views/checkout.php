@@ -78,15 +78,11 @@ foreach ($_SESSION['cart'] as $item) {
                 <input type="date" name="order_date" required>
             </div>
             <div class="form-group">
-                <label for="status">Order Status (0=Pending):</label>
-                <input type="number" name="status" value="0" required>
+                <label class="total" for="total_money">Total Amount:<?php echo $total_price; ?></label>
             </div>
-            <div class="form-group">
-                <label for="total_money">Total Amount:</label>
-                <input type="text" name="total_money" value="<?php echo $total_price; ?>" required>
+            <div class="btn">
+                <a href="./checkout.php" class="btn-checkout">Thanh toán</a>
             </div>
-
-            <button type="submit" class="submit-btn">Place Order</button>
         </form>
     </div>
 </body>

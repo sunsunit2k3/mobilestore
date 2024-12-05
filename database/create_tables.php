@@ -68,7 +68,7 @@
     email VARCHAR(100) NOT NULL, 
     address VARCHAR(500) NOT NULL,
     note VARCHAR(300) NOT NULL,
-    order_date DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    order_date DATE NOT NULL, 
     status INT NOT NULL DEFAULT 0, 
     total_money INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES User(user_id),
