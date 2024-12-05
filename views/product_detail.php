@@ -2,6 +2,12 @@
 include_once __DIR__ . '/../controllers/product_manager.php';
 include_once __DIR__ . '/../controllers/review_manager.php';
 include_once __DIR__ . '/../header.php';
+
+if (!isset($_SESSION['user_id'])) {
+    $loginRequired = true; 
+} else {
+    $loginRequired = false;
+}
 $productId = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
 
 if ($productId > 0) {
@@ -37,7 +43,7 @@ $reviews = getReviewsByProductId($productId);
                 <h1><?php echo htmlspecialchars($product['name']); ?></h1>
                 <p class="price"><?php echo number_format($product['price'], 0, ',', '.') . " VND"; ?></p>
                 <p class="description"><?php echo htmlspecialchars($product['description']); ?></p>
-                <a href="cart.php?action=add&id=<?php echo $product['product_id']; ?>" class="btn">Thêm vào giỏ hàng</a>
+                <a href="cart.php?&id=<?php echo $product['product_id']; ?>" class="btn">Thêm vào giỏ hàng</a>
             </div>
         </div>
 
@@ -60,11 +66,25 @@ $reviews = getReviewsByProductId($productId);
 
         <div class="comment-section">
             <h2>Để lại bình luận</h2>
-            <form action="submit_comment.php" method="POST">
-                <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
-                <textarea name="comment" placeholder="Nhập bình luận của bạn..." required></textarea>
-                <button type="submit" class="btn">Gửi</button>
-            </form>
+            <?php if ($loginRequired): ?>
+                <p class="login-required">Bạn phải <a href="login.php">đăng nhập</a> và mua hàng để bình luận.</p>
+            <?php else: ?>
+                <form action="submit_comment.php" method="POST">
+                    <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
+                    <div class="star">
+                        <p>Chọn sao đánh giá</p>
+                        <select name="" id="">
+                            <option value="">⭐</option>
+                            <option value="">⭐⭐</option>
+                            <option value="">⭐⭐⭐</option>
+                            <option value="">⭐⭐⭐⭐</option>
+                            <option value="">⭐⭐⭐⭐⭐</option>
+                        </select>
+                    </div>
+                    <textarea name="comment" placeholder="Nhập bình luận của bạn..." required></textarea>
+                    <button type="submit" class="btn">Gửi</button>
+                </form>
+            <?php endif; ?>
         </div>
     </section>
 </body>

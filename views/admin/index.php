@@ -1,6 +1,10 @@
 <?php
 session_start();
+if(!isset($_SESSION['role'])&& $_SESSION['role'] != 'admin'){
+    header('location:../../index.php');
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,20 +25,10 @@ session_start();
             <div class="logo">
                 <a href="<?php echo BASE_URL?>index.php">Technology Store</a>
             </div>
-            <form method="GET" action="product_list.php" class='form-search'>
-                <input type="text" placeholder="Nhập từ khóa cần tìm" name="keyword" class="search-bar">
-                <button type="submit">Tìm kiếm</button>
-            </form>
-            <div class="cart-icon"><a href="<?php echo VIEWS_PATH?>cart_view.php">🛒</a></div>
-            <?php if (isset($_SESSION['user_id'])): ?>
                 <a href=""><i class="fa fa-user-circle  fa-2x" aria-hidden="true"></i></a>
                 <div class="user-info">
                     <a href="<?php echo BASE_URL?>views/logout.php" class="logout-button"><button>Đăng xuất</button></a>
                 </div>
-            <?php else: ?>
-                <div class="login"><a href="<?php echo BASE_URL?>views/login.php"><button>Đăng nhập</button></a></div> 
-                <div class="signup"><a href="<?php echo BASE_URL?>views/sign_up.php"><button>Đăng ký</button></a></div>
-            <?php endif; ?>
         </nav>
     </header>
 </body>

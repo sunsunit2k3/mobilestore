@@ -5,7 +5,7 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/mobilestore/'); // Đư
 define('CSS_PATH', BASE_URL . 'css/');
 define('JS_PATH', BASE_URL . 'js/');
 define('IMAGES_PATH', BASE_URL . 'assets/');
-
+define('VIEWS_PATH', BASE_URL . 'views/');
 
 // Nhúng file kết nối cơ sở dữ liệu
 require_once BASE_PATH . '/database/conn.php';

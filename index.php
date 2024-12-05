@@ -1,6 +1,6 @@
 <?php
-include 'controllers/product_manager.php'; // Giả sử file này chứa các hàm quản lý sản phẩm như getAllProducts()
-include 'header.php'; // Giả sử đây là phần header của trang web
+include 'controllers/product_manager.php'; 
+include 'header.php';
 ?>
 
 <!DOCTYPE html>

@@ -121,3 +121,8 @@ body {
 .comment-section button:hover {
     background: #0056b3;
 }
+.star{
+    display: flex;
+    gap: 5px;
+}
+

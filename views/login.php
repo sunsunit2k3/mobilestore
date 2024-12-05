@@ -1,41 +1,24 @@
 <?php
-session_start();
-include_once __DIR__ . '/../config.php'; // Kết nối tới cơ sở dữ liệu
-$conn = getDbConnection();
-// Kiểm tra khi người dùng nhấn nút "Đăng nhập"
+include_once "../controllers/auth.php";
+
 if (isset($_POST['submit'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);  // Làm sạch dữ liệu đầu vào
-    $password = mysqli_real_escape_string($conn, $_POST['pwd']);
+    $email = $_POST['email'];  
+    $password = $_POST['pwd'];
+    $loginResult = loginUser($email, $password);
 
-    // Truy vấn kiểm tra email trong cơ sở dữ liệu
-    $query = "SELECT * FROM User WHERE email = '$email'";
-    $result = mysqli_query($conn, $query);
-
-    if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        // Kiểm tra mật khẩu bằng password_verify()
-        if (password_verify($password, $row['password'])) {
-            // Chuyển hướng người dùng sau khi đăng nhập thành công
-            if ($row['role'] == 'Admin') { 
-                header('Location: ../admin/home-admin.php');
-            } else {
-                $_SESSION['user_id'] = $row['user_id'];
-                $_SESSION['user_name'] = $row['username'];
-                $_SESSION['email'] = $row['email'];
-                $_SESSION['role'] = $row['role'];
-                header('Location: ../index.php');
-            }
-            exit();
-        } else {
-            echo "<script>alert('Mật khẩu không chính xác!');</script>";
-        }
+    if ($loginResult === true) {
+        $redirectPage = ($_SESSION['role'] == 'admin') ? './admin/index.php' : '../index.php';
+        echo "<script>
+                alert('{$_SESSION['success_message']}');
+                window.location.href = '$redirectPage';
+              </script>";
+        unset($_SESSION['success_message']); 
+        exit();
     } else {
-        echo "<script>alert('Email không tồn tại!');</script>";
+        echo "<script>alert('$loginResult');</script>";
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,7 +46,7 @@ if (isset($_POST['submit'])) {
             </div>
             <input type="submit" name="submit" class="form-submit" value="Đăng nhập">
             <div class="signup">
-                <a  href="sign_up.php">Đăng ký</a>
+                <a href="sign_up.php">Đăng ký</a>
             </div>
         </form>
     </div>

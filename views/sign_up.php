@@ -1,39 +1,21 @@
 <?php
-// Kết nối cơ sở dữ liệu
-include_once __DIR__ . '/../config.php';
-$conn = getDbConnection();
-// Kiểm tra khi form được gửi
+include_once "../controllers/auth.php";
+
 if (isset($_POST['submit'])) {
-    // Lấy dữ liệu từ form và làm sạch dữ liệu để tránh SQL Injection
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = mysqli_real_escape_string($conn, $_POST['pwd']);
-    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
-    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $email = $_POST['email'];
+    $username = $_POST['username'];
+    $password = $_POST['pwd'];
+    $fullname = $_POST['fullname'];
+    $phone = $_POST['phone'];
 
-    // Kiểm tra username đã tồn tại chưa
-    $check_username = "SELECT * FROM User WHERE username = '$username'";
-    $result = mysqli_query($conn, $check_username);
+    $registerResult = registerUser($email, $username, $password, $fullname, $phone);
 
-    if (mysqli_num_rows($result) > 0) {
-        echo "<script>alert('Tên tài khoản đã tồn tại!');</script>";
+    if ($registerResult === true) {
+        echo "<script>alert('Đăng ký thành công!'); window.location.href = 'login.php';</script>";
     } else {
-        // Mã hóa mật khẩu
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Chèn dữ liệu vào bảng User
-        $sql = "INSERT INTO User (email, username, password, fullname, phone) VALUES ('$email', '$username', '$hashed_password', '$fullname', '$phone')";
-        
-        if (mysqli_query($conn, $sql)) {
-            echo "<script>alert('Đăng ký thành công!'); window.location.href = 'login.php';</script>";
-        } else {
-            echo "Lỗi: " . mysqli_error($conn);
-        }
+        echo "<script>alert('$registerResult');</script>";
     }
 }
-
-// Đóng kết nối
-mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
