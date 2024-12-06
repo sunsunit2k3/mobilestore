@@ -27,7 +27,7 @@ session_start();
             </form>
             <div class="cart-icon"><a href="<?php echo VIEWS_PATH?>cart_view.php">🛒</a></div>
             <?php if (isset($_SESSION['user_id'])): ?>
-                <a href=""><i class="fa fa-user-circle  fa-2x" aria-hidden="true"></i></a>
+                <a href="<?php echo VIEWS_PATH?>list_order.php"><i class="fa fa-list  fa-2x" aria-hidden="true"></i></a>
                 <div class="user-info">
                     <a href="<?php echo BASE_URL?>views/logout.php" class="logout-button"><button>Đăng xuất</button></a>
                 </div>

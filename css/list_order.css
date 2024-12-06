@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.order-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.order-table th, .order-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.order-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.order-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.order-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.status-0 {
+    color: #f39c12; /* Chờ xử lý: Màu cam */
+    font-weight: bold;
+}
+
+.status-1 {
+    color: #3498db; /* Đang giao hàng: Màu xanh dương */
+    font-weight: bold;
+}
+
+.status-2 {
+    color: #2ecc71; /* Hoàn thành: Màu xanh lá */
+    font-weight: bold;
+}
+
+.status-3 {
+    color: #e74c3c; /* Hủy: Màu đỏ */
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .order-table th, .order-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+.btn-update {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-delete {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}

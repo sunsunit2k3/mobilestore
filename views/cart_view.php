@@ -10,21 +10,13 @@ if (!$cartEmpty) {
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giỏ Hàng</title>
-    <link rel="stylesheet" href="../css/cart.css">
-</head>
+<link rel="stylesheet" href="../css/cart.css">
 <body>
     <div class="cart-container">
         <h1>Giỏ Hàng</h1>
 
         <?php if ($cartEmpty): ?>
-            <p>Giỏ hàng của bạn hiện đang trống. <a href="index.php">Mua sắm ngay!</a></p>
+            <p>Giỏ hàng của bạn hiện đang trống. <a href="../index.php">Mua sắm ngay!</a></p>
         <?php else: ?>
             <table class="cart-table">
                 <thead>
@@ -53,7 +45,7 @@ if (!$cartEmpty) {
                             <td><?php echo number_format($item['price'], 0, ',', '.') . " VND"; ?></td>
                             <td><?php echo number_format($item['quantity'] * $item['price'], 0, ',', '.') . " VND"; ?></td>
                             <td>
-                                <a href="cart.php?action=delete&id=<?php echo $item['id']; ?>" class="btn-delete">Xóa</a>
+                                <a href="../controllers/cart.php echo $item['id']; ?>" class="btn-delete">Xóa</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -72,3 +64,4 @@ if (!$cartEmpty) {
     </div>
 </body>
 </html>
+<?php include '../footer.php'; ?>

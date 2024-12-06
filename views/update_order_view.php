@@ -1,20 +1,15 @@
 <?php
 
-include_once __DIR__ . '/../config.php';
+include_once __DIR__ . '/../controllers/order_detail_controller.php';
 include_once __DIR__ . '/../header.php';
-
-
-// Check if the cart is not empty
-if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
-    echo "Your cart is empty!";
+if (isset($_GET['order_id'])) {
+    $order_id = $_GET['order_id'];
+    $order_detail = getOrderDetails($order_id);
+} else {
+    echo "No order ID provided.";
     exit;
 }
 
-// Calculate the total price
-$total_price = 0;
-foreach ($_SESSION['cart'] as $item) {
-    $total_price += $item['price'] * $item['quantity'];
-}
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +23,7 @@ foreach ($_SESSION['cart'] as $item) {
 <body>
     <div class="checkout-container">
         <h2 class="checkout-title">Checkout</h2>
-        <form action="add_order.php" method="POST" class="checkout-form">
+        <form action="update_order.php" method="POST" class="checkout-form">
             <h3 class="section-title">Order Details</h3>
             
             <!-- Display Cart Products -->
@@ -41,10 +36,10 @@ foreach ($_SESSION['cart'] as $item) {
                     <th>Total</th>
                 </tr>
 
-                <?php foreach ($_SESSION['cart'] as $item): ?>
+                <?php foreach ($order_detail as $item): ?>
                 <tr>
-                    <td><?php echo $item['id']; ?></td>
-                    <td><?php echo $item['name']; ?></td>
+                    <td><?php echo $item['product_id']; ?></td>
+                    <td><?php echo $item['product_name']; ?></td>
                     <td><?php echo $item['price']; ?></td>
                     <td><?php echo $item['quantity']; ?></td>
                     <td><?php echo $item['price'] * $item['quantity']; ?></td>
@@ -54,20 +49,24 @@ foreach ($_SESSION['cart'] as $item) {
 
             <h3 class="section-title">Personal Information</h3>
             <div class="form-group">
+                <label for="fullname">Mã đơn hàng: <?php echo $order_id?></label>
+                <input type="text" name="order_id" required hidden value="<?php echo $order_id?>">
+            </div>
+            <div class="form-group">
                 <label for="fullname">Full Name:</label>
-                <input type="text" name="fullname" required>
+                <input type="text" name="fullname" value="<?php echo $item['fullname']?>" required>
             </div>
             <div class="form-group">
                 <label for="phone_number">Phone Number:</label>
-                <input type="text" name="phone_number" required>
+                <input type="text" name="phone_number" value="<?php echo $item['phone_number']?>" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" name="email" required>
+                <input type="email" name="email" value="<?php echo $item['email']?>"required>
             </div>
             <div class="form-group">
                 <label for="address">Address:</label>
-                <textarea name="address" required></textarea>
+                <textarea name="address"  required></textarea>
             </div>
             <div class="form-group">
                 <label for="note">Order Note:</label>
@@ -75,14 +74,14 @@ foreach ($_SESSION['cart'] as $item) {
             </div>
             <div class="form-group">
                 <label for="order_date">Order Date:</label>
-                <input type="date" name="order_date" required>
+                <input type="date" name="order_date" value="<?php echo $item['order_date']; ?>" required>
             </div>
             <div class="form-group">
-                <label class="total" for="total_money">Total Amount: <?php echo $total_price; ?></label>
-                <input type="hidden" name="total_money" value="<?php echo $total_price; ?>" required>
+                <label class="total" for="total_money">Total Amount: <?php echo $item['total_product_price']; ?></label>
+                <input type="hidden" name="total_money" value="<?php echo $item['total_product_price']; ?>" required>
             </div>
             <div class="btn">
-                <button type="submit" class="btn-checkout">Thanh toán</button>
+                <button type="submit" class="btn-checkout">Cập nhật</button>
             </div>
         </form>
     </div>

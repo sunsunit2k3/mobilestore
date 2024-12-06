@@ -43,39 +43,40 @@
 	} else {
 		echo "Có lỗi xảy ra: ".mysqli_error($conn);
 	}
+	// BẢNG ORDER (đơn hàng)
+	$sql = "CREATE TABLE `Order` (
+		order_id INT AUTO_INCREMENT PRIMARY KEY,
+		user_id INT NOT NULL,
+		fullname VARCHAR(100) NOT NULL,
+		phone_number VARCHAR(20) NOT NULL,
+		email VARCHAR(100) NOT NULL, 
+		address VARCHAR(500) NOT NULL,
+		note VARCHAR(300) NOT NULL,
+		order_date DATE NOT NULL, 
+		status INT NOT NULL DEFAULT 0, 
+		total_money INT NOT NULL,
+		FOREIGN KEY (user_id) REFERENCES User(user_id)
+		);";
+	
+		if(mysqli_query($conn,$sql)){
+			echo "<br> Bảng OrderDetail tạo thành công";
+		} else {
+			echo "Có lỗi xảy ra: ".mysqli_error($conn);
+		}
 
-	// BẢNG GIỎ HÀNG (Order) - Create this before OrderDetail
-	$sql = "CREATE TABLE IF NOT EXISTS `Order` (
-    order_id INT AUTO_INCREMENT PRIMARY KEY, 
-    product_id INT NOT NULL,
-    price INT NOT NULL, 
-    quantity INT NOT NULL, 
-    FOREIGN KEY (product_id) REFERENCES Product(product_id))";
+	// BẢNG GIỎ HÀNG 
+		$sql = "CREATE TABLE OrderDetail (
+		orderdetail_id INT AUTO_INCREMENT PRIMARY KEY,
+		order_id INT NOT NULL,
+		product_id INT NOT NULL,
+		quantity INT NOT NULL,
+		price FLOAT NOT NULL,
+		FOREIGN KEY (order_id) REFERENCES `Order`(order_id),
+		FOREIGN KEY (product_id) REFERENCES Product(product_id)
+	);";
 
 	if(mysqli_query($conn,$sql)){
 		echo "<br> Bảng Order tạo thành công";
-	} else {
-		echo "Có lỗi xảy ra: ".mysqli_error($conn);
-	}
-
-	// BẢNG ORDERDETAIL (Chi tiết đơn hàng)
-	$sql = "CREATE TABLE IF NOT EXISTS OrderDetail (
-    orderdetail_id INT AUTO_INCREMENT PRIMARY KEY, 
-    user_id INT NOT NULL,
-    order_id INT NOT NULL, 
-    fullname VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL, 
-    address VARCHAR(500) NOT NULL,
-    note VARCHAR(300) NOT NULL,
-    order_date DATE NOT NULL, 
-    status INT NOT NULL DEFAULT 0, 
-    total_money INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES User(user_id),
-    FOREIGN KEY (order_id) REFERENCES `Order`(order_id))";
-
-	if(mysqli_query($conn,$sql)){
-		echo "<br> Bảng OrderDetail tạo thành công";
 	} else {
 		echo "Có lỗi xảy ra: ".mysqli_error($conn);
 	}

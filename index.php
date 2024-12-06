@@ -1,5 +1,5 @@
 <?php
-include 'controllers/product_manager.php'; 
+include 'controllers/product_controller.php'; 
 include 'header.php';
 ?>
 
@@ -16,10 +16,10 @@ include 'header.php';
     <!-- Sidebar -->
     <aside class="sidebar">
         <ul>
-            <li><span class="icon">💻</span>Laptop</li>
-            <li><span class="icon">📱</span>Điện thoại</li>
-            <li><span class="icon">🎮</span>Phụ kiện Gaming</li>
-            <li><span class="icon">📟</span>Phụ kiện Điện Thoại</li>
+            <li><a href="?category=Laptop"><span class="icon">💻</span>Laptop</a></li>
+            <li><a href="?category=Điện thoại"><span class="icon">📱</span>Điện thoại</a></li>
+            <li><a href="?category=Phụ kiện Gaming"><span class="icon">🎮</span>Phụ kiện Gaming</a></li>
+            <li><a href="?category=Phụ kiện Điện Thoại"><span class="icon">📟</span>Phụ kiện Điện Thoại</a></li>
         </ul>
     </aside>
 
@@ -61,10 +61,12 @@ $productsPerPage = 12;
 
 // Xác định trang hiện tại từ tham số URL, mặc định là trang 1
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$category = isset($_GET['category']) ? $_GET['category'] : null;
+
 $start = ($page - 1) * $productsPerPage;
 
 // Truy vấn lấy sản phẩm giới hạn với LIMIT và OFFSET
-$products = getProductsByLimit($start, $productsPerPage); // Hàm lấy sản phẩm theo giới hạn
+$products = getProductsByLimit($start, $productsPerPage, $category); // Hàm lấy sản phẩm theo giới hạn
 ?>
 
 <section class="product-section">
@@ -81,14 +83,17 @@ $products = getProductsByLimit($start, $productsPerPage); // Hàm lấy sản ph
 <div class="pagination">
     <?php 
     // Tính tổng số sản phẩm và số trang
-    $totalProducts = getTotalProductCount(); // Hàm đếm tổng số sản phẩm
+    // echo $category;
+    $totalProducts = getTotalProductCount($category); // Hàm đếm tổng số sản phẩm
     $totalPages = ceil($totalProducts / $productsPerPage);
     // Hiển thị các liên kết phân trang
     if ($totalPages > 1): ?>
         <ul class="pagination-list">
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <li class="pagination-item <?php echo ($i == $page) ? 'active' : ''; ?>">
-                    <a href="?page=<?php echo $i; ?>"><?php echo "$i"; ?></a>
+                    <a href="?page=<?php echo $i; ?><?php echo $category ? '&category=' . urlencode($category) : ''; ?>">
+                        <?php echo $i; ?>
+                    </a>
                 </li>
             <?php endfor; ?>
         </ul>

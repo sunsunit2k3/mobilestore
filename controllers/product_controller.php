@@ -14,11 +14,11 @@ function getAllProducts() {
     }
     mysqli_close($conn);
 }
-function getProductById($id) {
-    $conn = getDbConnection(); 
-    $sql = "SELECT * FROM Product WHERE product_id = $id";
-    $result = mysqli_query($conn, $sql);
 
+function getProductByField($field, $value) {
+    $conn = getDbConnection(); 
+    $sql = "SELECT * FROM Product WHERE $field = '$value'";
+    $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $product = mysqli_fetch_assoc($result);
         mysqli_close($conn);
@@ -28,6 +28,7 @@ function getProductById($id) {
         return [];
     }
 }
+
 
 
 
@@ -78,17 +79,25 @@ function deleteProduct($product_id) {
     mysqli_close($conn);
 }
 // Hàm lấy sản phẩm theo giới hạn
-function getProductsByLimit($start, $limit) {
+function getProductsByLimit($start, $limit, $category) {
     $conn = getDbConnection();
-    $query = "SELECT * FROM Product LIMIT $start, $limit"; 
+    if($category!=null){
+        $query = "SELECT * FROM Product WHERE category = '$category' LIMIT $start, $limit";
+    } else{
+        $query = "SELECT * FROM Product LIMIT $start, $limit";
+    }
     $result = mysqli_query($conn, $query);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
 // Hàm đếm tổng số sản phẩm
-function getTotalProductCount() {
+function getTotalProductCount($category) {
     $conn = getDbConnection();
-    $query = "SELECT COUNT(*) AS total FROM Product";
+    if($category!=null){
+        $query = "SELECT COUNT(*) as total FROM Product WHERE category = '$category'";
+    } else{
+        $query = "SELECT COUNT(*) as total FROM Product";
+    }
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
     return $row['total'];

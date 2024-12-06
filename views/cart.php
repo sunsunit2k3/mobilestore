@@ -1,6 +1,6 @@
 <?php
 session_start(); 
-include_once __DIR__ . '/../controllers/product_manager.php';
+include_once __DIR__ . '/../controllers/product_controller.php';
 
 
 if (isset($_GET['id'])) {
@@ -15,7 +15,7 @@ if ($quantity <= 0) {
     $quantity = 1;
 }
 
-$product = getProductById($id);
+$product = getProductByField('product_id', $id);
 
 if ($product) {
     $item = [
