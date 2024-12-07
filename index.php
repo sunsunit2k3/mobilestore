@@ -62,11 +62,21 @@ $productsPerPage = 12;
 // Xác định trang hiện tại từ tham số URL, mặc định là trang 1
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $category = isset($_GET['category']) ? $_GET['category'] : null;
+$keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : null;
 
 $start = ($page - 1) * $productsPerPage;
 
-// Truy vấn lấy sản phẩm giới hạn với LIMIT và OFFSET
-$products = getProductsByLimit($start, $productsPerPage, $category); // Hàm lấy sản phẩm theo giới hạn
+if ($keyword) {
+    $products = getProductsByLimit($start, $productsPerPage, $category, $keyword); // Hàm tìm kiếm sản phẩm
+    $totalProducts = getTotalProductCount($keyword, $keyword); // Hàm đếm số sản phẩm theo từ khóa
+} else {
+    // Nếu không có từ khóa, lấy tất cả sản phẩm (có thể theo danh mục)
+    $products = getProductsByLimit($start, $productsPerPage, $category, $keyword); // Hàm tìm kiếm sản phẩm
+    $totalProducts = getTotalProductCount($keyword, $keyword); // Hàm đếm số sản phẩm theo từ khóa
+}
+
+// Tính tổng số trang
+$totalPages = ceil($totalProducts / $productsPerPage);
 ?>
 
 <section class="product-section">
@@ -82,11 +92,6 @@ $products = getProductsByLimit($start, $productsPerPage, $category); // Hàm l�
 
 <div class="pagination">
     <?php 
-    // Tính tổng số sản phẩm và số trang
-    // echo $category;
-    $totalProducts = getTotalProductCount($category); // Hàm đếm tổng số sản phẩm
-    $totalPages = ceil($totalProducts / $productsPerPage);
-    // Hiển thị các liên kết phân trang
     if ($totalPages > 1): ?>
         <ul class="pagination-list">
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>

@@ -79,29 +79,62 @@ function deleteProduct($product_id) {
     mysqli_close($conn);
 }
 // Hàm lấy sản phẩm theo giới hạn
-function getProductsByLimit($start, $limit, $category) {
+function getProductsByLimit($start, $limit, $category = null, $name = null) {
     $conn = getDbConnection();
-    if($category!=null){
-        $query = "SELECT * FROM Product WHERE category = '$category' LIMIT $start, $limit";
-    } else{
-        $query = "SELECT * FROM Product LIMIT $start, $limit";
+
+    // Xây dựng câu truy vấn SQL cơ bản
+    $query = "SELECT * FROM Product";
+    
+    // Thêm điều kiện nếu có category hoặc name
+    if ($category || $name) {
+        $query .= " WHERE ";
+        if ($category) {
+            $query .= "category = '" . mysqli_real_escape_string($conn, $category) . "'";
+        }
+        if ($category && $name) {
+            $query .= " AND ";
+        }
+        if ($name) {
+            $query .= "name LIKE '%" . mysqli_real_escape_string($conn, $name) . "%'";
+        }
     }
+
+    $query .= " LIMIT $start, $limit";
+
+    // Thực hiện truy vấn
     $result = mysqli_query($conn, $query);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
+
 // Hàm đếm tổng số sản phẩm
-function getTotalProductCount($category) {
+function getTotalProductCount($category = null, $name = null) {
     $conn = getDbConnection();
-    if($category!=null){
-        $query = "SELECT COUNT(*) as total FROM Product WHERE category = '$category'";
-    } else{
-        $query = "SELECT COUNT(*) as total FROM Product";
+
+    // Xây dựng câu truy vấn SQL cơ bản
+    $query = "SELECT COUNT(*) as total FROM Product";
+
+    // Thêm điều kiện nếu có category hoặc name
+    if ($category || $name) {
+        $query .= " WHERE ";
+        if ($category) {
+            $query .= "category = '" . mysqli_real_escape_string($conn, $category) . "'";
+        }
+        if ($category && $name) {
+            $query .= " AND ";
+        }
+        if ($name) {
+            $query .= "name LIKE '%" . mysqli_real_escape_string($conn, $name) . "%'";
+        }
     }
+
+    // Thực hiện truy vấn
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
     return $row['total'];
 }
+
+
 
 // Kiểm tra nếu có yêu cầu thêm, sửa sản phẩm
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -111,12 +144,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $price = $_POST['price'];
         $quantity = $_POST['quantity'];
         $category = $_POST['category'];
-        $image = $_POST['image'];
-
-        if (addProduct($name, $description, $price, $quantity, $category, $image)) {
-            echo "Sản phẩm đã được thêm thành công!";
+        $image = $_FILES['image'];
+    
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/mobilestore/assets/product/';
+        $imageFileName = null;
+    
+        if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
+            $originalFileName = basename($image['name']);
+            $targetFile = $uploadDir . $originalFileName;
+    
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (in_array($image['type'], $allowedTypes)) {
+                if (move_uploaded_file($image['tmp_name'], $targetFile)) {
+                    $imageFileName = $originalFileName;
+                } else {
+                    echo "Không thể tải ảnh lên.";
+                    exit;
+                }
+            } else {
+                echo "Định dạng ảnh không hợp lệ. Chỉ chấp nhận JPEG, PNG, JPG.";
+                exit;
+            }
         } else {
-            echo "Lỗi khi thêm sản phẩm.";
+            echo "Vui lòng tải lên một tệp ảnh hợp lệ.";
+            exit;
+        }
+    
+        $addProduct=addProduct($name, $description, $price, $quantity, $category, $imageFileName);
+        if ($addProduct) {
+            $message = "Cập nhật sản phẩm thành công.";
+        } else {
+            $message = "Đã xảy ra lỗi khi cập nhật sản phẩm.";
         }
     }
 
@@ -127,23 +185,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $price = $_POST['price'];
         $quantity = $_POST['quantity'];
         $category = $_POST['category'];
-        $image = $_POST['image'];
-
-        if (updateProduct($product_id, $name, $description, $price, $quantity, $category, $image)) {
-            echo "Sản phẩm đã được cập nhật!";
+    
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/mobilestore/assets/product/'; 
+        $product = getProductByField("product_id", $product_id);
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $originalFileName = $_FILES['image']['name'];
+    
+            $targetFile = $uploadDir . basename($originalFileName);
+    
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+                $imageFileName = basename($originalFileName);
+            } else {
+                $imageFileName = $product['image']; 
+            }
         } else {
-            echo "Lỗi khi cập nhật sản phẩm.";
+            $imageFileName = $product['image'];
         }
-    }
+    
+        // Update the product in the database
+        $updateResult = updateProduct($product_id, $name, $description, $price, $quantity, $category, $imageFileName);
+        if ($updateResult) {
+            $message = "Cập nhật sản phẩm thành công.";
+        } else {
+            $message = "Đã xảy ra lỗi khi cập nhật sản phẩm.";
+        }
+    }    
 }
 
-// Xử lý xóa sản phẩm
-if (isset($_GET['delete'])) {
-    $product_id = $_GET['delete'];
-    if (deleteProduct($product_id)) {
-        echo "Sản phẩm đã được xóa!";
-    } else {
-        echo "Lỗi khi xóa sản phẩm.";
-    }
-}
+
+
 ?>

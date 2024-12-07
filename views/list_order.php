@@ -49,9 +49,6 @@ $list_order = getOrderByField('user_id', $_SESSION['user_id']);
                                     case 2:
                                         echo 'Hoàn thành';
                                         break;
-                                    case 3:
-                                        echo 'Hủy';
-                                        break;
                                     default:
                                         echo 'Không xác định';
                                 }
@@ -77,7 +74,7 @@ $list_order = getOrderByField('user_id', $_SESSION['user_id']);
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="9">Không có đơn hàng nào</td>
+                        <td colspan="10">Không có đơn hàng nào</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

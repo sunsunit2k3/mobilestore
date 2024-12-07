@@ -21,7 +21,7 @@ session_start();
             <div class="logo">
                 <a href="<?php echo BASE_URL?>index.php">Technology Store</a>
             </div>
-            <form method="GET" action="product_list.php" class='form-search'>
+            <form method="GET" action="./index.php" class='form-search'>
                 <input type="text" placeholder="Nhập từ khóa cần tìm" name="keyword" class="search-bar">
                 <button type="submit">Tìm kiếm</button>
             </form>
