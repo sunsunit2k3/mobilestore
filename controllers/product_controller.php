@@ -100,7 +100,6 @@ function getProductsByLimit($start, $limit, $category = null, $name = null) {
     }
 
     $query .= " LIMIT $start, $limit";
-
     // Thực hiện truy vấn
     $result = mysqli_query($conn, $query);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -153,16 +152,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $originalFileName = basename($image['name']);
             $targetFile = $uploadDir . $originalFileName;
     
-            $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-            if (in_array($image['type'], $allowedTypes)) {
-                if (move_uploaded_file($image['tmp_name'], $targetFile)) {
-                    $imageFileName = $originalFileName;
-                } else {
-                    echo "Không thể tải ảnh lên.";
-                    exit;
-                }
+            if (move_uploaded_file($image['tmp_name'], $targetFile)) {
+                $imageFileName = $originalFileName;
             } else {
-                echo "Định dạng ảnh không hợp lệ. Chỉ chấp nhận JPEG, PNG, JPG.";
+                echo "Không thể tải ảnh lên.";
                 exit;
             }
         } else {
@@ -188,6 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
         $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/mobilestore/assets/product/'; 
         $product = getProductByField("product_id", $product_id);
+
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $originalFileName = $_FILES['image']['name'];
     

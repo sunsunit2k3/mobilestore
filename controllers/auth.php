@@ -2,7 +2,6 @@
 session_start();
 
 include_once __DIR__ . '/../config.php';
-
 //Hàm xử lý đăng nhập
 function loginUser($email, $password) {
     $conn = getDbConnection();
@@ -34,11 +33,11 @@ function registerUser($email, $username, $password, $fullname, $phone) {
     $fullname = mysqli_real_escape_string($conn, $fullname);
     $phone = mysqli_real_escape_string($conn, $phone);
 
-    $check_username = "SELECT * FROM User WHERE username = '$username'";
+    $check_username = "SELECT * FROM User WHERE email = '$email'";
     $result = mysqli_query($conn, $check_username);
 
     if (mysqli_num_rows($result) > 0) {
-        return "Tên tài khoản đã tồn tại!";
+        return "Tên email đã tồn tại!";
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 

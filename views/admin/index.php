@@ -27,6 +27,7 @@ $query = "
         YEAR(o.order_date) = $currentYear
 ";
 
+
 $result = mysqli_query($conn, $query);
 $soldProducts = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -46,10 +47,8 @@ $revenueQuery = "
 $revenueResult = mysqli_query($conn, $revenueQuery);
 $revenueData = mysqli_fetch_assoc($revenueResult);
 $totalRevenue = $revenueData['total_revenue'];
+
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

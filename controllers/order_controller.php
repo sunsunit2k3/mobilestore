@@ -1,5 +1,18 @@
 <?php
 include_once __DIR__ . '/../config.php';
+
+function getOrder() {
+    $conn = getDbConnection();
+    $sql = "SELECT * FROM `order`";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        return $result;
+    } else {
+        return [];
+    }
+    mysqli_close($conn);
+}
 function getOrderByField($field, $value) {
     $conn = getDbConnection();
     $sql = "SELECT * FROM `order` WHERE $field = $value";
@@ -61,6 +74,22 @@ function deleteOrder($order_id) {
     }
     mysqli_close($conn);
 }
+// Cập nhật trạng thái đơn hàng
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['status'])) {
+    $order_id = $_POST['order_id'];
+    $status = $_POST['status'];
+    $conn = getDbConnection();
 
+    $sql = "UPDATE `Order` SET status = ? WHERE order_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $status, $order_id);
+    
+    if ($stmt->execute()) {
+        echo "<script>alert('Cập nhật trạng thái thành công!');</script>";
+    } else {
+        echo "<script>alert('Cập nhật trạng thái thất bại!');</script>";
+    }
+    $stmt->close();
+}
 ?>
 

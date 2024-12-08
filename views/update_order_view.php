@@ -2,6 +2,10 @@
 
 include_once __DIR__ . '/../controllers/order_detail_controller.php';
 include_once __DIR__ . '/../header.php';
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'user') {
+    header('location:../index.php');
+    exit();
+}
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
     $order_detail = getOrderDetails($order_id);

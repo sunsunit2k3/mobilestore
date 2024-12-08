@@ -1,7 +1,10 @@
 <?php
 include_once '../header.php';
 include_once __DIR__ . '/../../../controllers/product_controller.php';
-
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
+    header('location:../../index.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">

@@ -3,7 +3,10 @@ ob_start();
 include_once __DIR__ . '/../controllers/order_controller.php';
 include_once __DIR__ . '/../controllers/order_detail_controller.php';
 include_once '../header.php';
-
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'user') {
+    header('location:../index.php');
+    exit();
+}
 // Lấy danh sách đơn hàng theo user_id
 $list_order = getOrderByField('user_id', $_SESSION['user_id']);
 ?>

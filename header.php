@@ -29,11 +29,11 @@ session_start();
             <?php if (isset($_SESSION['user_id'])): ?>
                 <a href="<?php echo VIEWS_PATH?>list_order.php"><i class="fa fa-list  fa-2x" aria-hidden="true"></i></a>
                 <div class="user-info">
-                    <a href="<?php echo BASE_URL?>views/logout.php" class="logout-button"><button>Đăng xuất</button></a>
+                    <a href="<?php echo VIEWS_PATH?>logout.php" class="logout-button"><button>Đăng xuất</button></a>
                 </div>
             <?php else: ?>
-                <div class="login"><a href="<?php echo BASE_URL?>views/login.php"><button>Đăng nhập</button></a></div> 
-                <div class="signup"><a href="<?php echo BASE_URL?>views/sign_up.php"><button>Đăng ký</button></a></div>
+                <div class="login"><a href="<?php echo VIEWS_PATH?>login.php"><button>Đăng nhập</button></a></div> 
+                <div class="signup"><a href="<?php echo VIEWS_PATH?>sign_up.php"><button>Đăng ký</button></a></div>
             <?php endif; ?>
         </nav>
     </header>
